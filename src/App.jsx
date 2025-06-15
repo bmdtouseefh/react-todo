@@ -26,8 +26,11 @@ const cancelEdit = () => {
 const saveEdit = async (id) => {
   const updated = {
     name: editTask,
-    description: editDesc,
+    desc: editDesc,
+    completed: false
   };
+  console.log(id);
+  
 console.log(JSON.stringify(updated));
 
   await fetch(`http://localhost:8000/updatetodo/${id}`, {
@@ -77,10 +80,15 @@ console.log(JSON.stringify(updated));
     setPriority('Medium');
   };
 
-  const toggleTodo = async (index) => {
-    const todo = todos[index];
+  const toggleTodo = async (todoId) => {
+    let todo;
+    for(let i=0;i<todos.length;i++)
+      if(todos[i].id == todoId)
+         todo = todos[i]
 
-    await fetch(`http://localhost:8000/updatetodo/${todo.id}`, {
+
+    
+    await fetch(`http://localhost:8000/updatetodo/${todoId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ completed: !todo.completed }),
